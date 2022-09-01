@@ -10,6 +10,10 @@ public class Player : MonoBehaviour
 
     TankController _tankController;
 
+    public float _points = 0;
+
+
+
     private void Awake()
     {
         _tankController = GetComponent<TankController>();
