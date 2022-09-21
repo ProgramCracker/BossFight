@@ -9,14 +9,14 @@ public class Player : MonoBehaviour
     public int _currentHealth;
 
     TankController _tankController;
-
-    public float _points = 0;
+    Inventory _inventory;
 
 
 
     private void Awake()
     {
         _tankController = GetComponent<TankController>();
+        _inventory = GetComponent<Inventory>();
     }
 
     private void Start()
@@ -40,6 +40,11 @@ public class Player : MonoBehaviour
             Kill();
         }
 
+    }
+
+    public void Points(int amount)
+    {
+        _inventory.GetPoints(amount);
     }
 
     public void Kill()

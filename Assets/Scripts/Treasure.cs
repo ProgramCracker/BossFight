@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Treasure : CollectibleBase
 {
-    [SerializeField] float Value = 1;
+    [SerializeField] int _value = 1;
 
     protected override void Collect(Player player)
     {
-
+        player.Points(_value);
     }
 }
