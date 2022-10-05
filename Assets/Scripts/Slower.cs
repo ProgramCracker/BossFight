@@ -8,7 +8,8 @@ public class Slower : Enemy
 
     //private float _effectDuration = 3;
 
-    protected override void PlayerImpact(Player player)
+    
+    protected void PlayerImpact(Player player)
     {
         TankController controller = player.GetComponent<TankController>();
         if (controller != null)
@@ -17,4 +18,6 @@ public class Slower : Enemy
             Debug.Log("Current Speed: " + controller.MaxSpeed);
         }
     }
+    
 }
+   

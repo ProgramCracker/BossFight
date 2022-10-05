@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Enemy : MonoBehaviour
+public class Enemy : HealthBase
 {
     [SerializeField] public int _damageAmount = 1;
     [SerializeField] ParticleSystem _impactParticles;
@@ -18,17 +18,18 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
+        HealthBase health = other.gameObject.GetComponent<HealthBase>();
         Player player = other.gameObject.GetComponent<Player>();
         if(player != null)
         {
-            PlayerImpact(player);
+            Impact(_damageAmount);
             ImpactFeedback();
         }
     }
     
-    protected virtual void PlayerImpact(Player player)
+    protected virtual void Impact(int _damageAmount)
     {
-        player.DecreaseHealth(_damageAmount);
+        DecreaseHealth(_damageAmount);
     }
 
     private void ImpactFeedback()

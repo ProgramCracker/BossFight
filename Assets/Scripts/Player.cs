@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(TankController))]
-public class Player : MonoBehaviour
+public class Player : HealthBase
 {
     [SerializeField] public int _maxHealth = 3;
     public int _currentHealth;
@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
         _inventory = GetComponent<Inventory>();
     }
 
+    /*
     private void Start()
     {
         _currentHealth = _maxHealth;
@@ -42,6 +43,7 @@ public class Player : MonoBehaviour
 
     }
 
+*/
     public void Points(int amount)
     {
         _inventory.GetPoints(amount);
