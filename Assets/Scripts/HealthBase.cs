@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthBase : MonoBehaviour
+public abstract class HealthBase : MonoBehaviour
 { 
-    [SerializeField] int _maxHealth;
-    [SerializeField] int _currentHealth;
+    [SerializeField] public int _maxHealth;
+    [SerializeField] public int _currentHealth;
 
     Player player;
     TankController tankController;
@@ -19,8 +19,10 @@ public class HealthBase : MonoBehaviour
     {
         _currentHealth -= damage;
 
+        Debug.Log(gameObject + " current health is:" + _currentHealth);
         if (_currentHealth <= 0)
         {
+           
             Kill();
         }
     }
@@ -33,6 +35,7 @@ public class HealthBase : MonoBehaviour
 
     public void Kill()
     {
+
         gameObject.SetActive(false);
     }
 }

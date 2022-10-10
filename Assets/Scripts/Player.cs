@@ -5,8 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(TankController))]
 public class Player : HealthBase
 {
-    [SerializeField] public int _maxHealth = 3;
-    public int _currentHealth;
+    //[SerializeField] public int _maxHealth = 3;
+    //public int _currentHealth;
 
     TankController _tankController;
     Inventory _inventory;
@@ -49,10 +49,5 @@ public class Player : HealthBase
         _inventory.GetPoints(amount);
     }
 
-    public void Kill()
-    {
-        gameObject.SetActive(false);
-        // play death particles
-        // play death sound
-    }
+
 }

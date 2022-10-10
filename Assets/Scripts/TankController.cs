@@ -16,6 +16,10 @@ public class TankController : MonoBehaviour
 
     //public UnityEvent<Vector3> OnMoveTurret = new UnityEvent<Vector3>();
 
+    [SerializeField] Transform _bulletSpawnPoint;
+    public GameObject bullet_1;
+    [SerializeField] float _bulletSpeed = 10;
+
     public float MaxSpeed
     {
         get => _maxSpeed;
@@ -28,14 +32,19 @@ public class TankController : MonoBehaviour
         mainCamera = Camera.main;
     }
 
+    private void Update()
+    {
+        Shoot();
+    }
+
     private void FixedUpdate()
     {
         MoveTank();
         TurnTank();
+        
         //GetTurretMovement();
 
     }
-
 
     public void MoveTank()
     {
@@ -56,6 +65,16 @@ public class TankController : MonoBehaviour
         Quaternion turnOffset = Quaternion.Euler(0, turnAmountThisFrame, 0);
         // apply quaternion to the rigidbody
         _rb.MoveRotation(_rb.rotation * turnOffset);
+    }
+
+    // projectiles
+    public void Shoot()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            var bullet = Instantiate(bullet_1, _bulletSpawnPoint.position, _bulletSpawnPoint.rotation);
+            bullet.GetComponent<Rigidbody>().velocity = _bulletSpawnPoint.forward * _bulletSpeed;
+        }
     }
 
     /*
