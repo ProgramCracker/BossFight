@@ -4,8 +4,8 @@ using UnityEngine;
 
 public abstract class PowerUpBase : MonoBehaviour
 {
-    protected abstract void PowerUp(Player player);
-    protected abstract void PowerDown(Player player);
+    protected abstract void PowerUp(PlayInput player);
+    protected abstract void PowerDown(PlayInput player);
 
     [SerializeField] public float _powerUpDuration;
     [SerializeField] float _movementSpeed = 1;
@@ -35,7 +35,7 @@ public abstract class PowerUpBase : MonoBehaviour
 
     private IEnumerator OnTriggerEnter(Collider other)
     {
-        Player player = other.gameObject.GetComponent<Player>();
+        PlayInput player = other.gameObject.GetComponent<PlayInput>();
 
         if (player != null)
         {

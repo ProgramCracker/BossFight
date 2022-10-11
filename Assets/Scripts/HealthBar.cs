@@ -7,12 +7,12 @@ public abstract class HealthBar : MonoBehaviour
 {
     private Image healthBar;
     public float CurrentHealth;
-    Player Player;
+    PlayInput Player;
 
     private void Start()
     {
         healthBar = GetComponent<Image>();
-        Player = FindObjectOfType<Player>();
+        Player = FindObjectOfType<PlayInput>();
     }
 
     private void Update()

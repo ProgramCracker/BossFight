@@ -18,7 +18,7 @@ public class TankController : MonoBehaviour
 
     [SerializeField] Transform _bulletSpawnPoint;
     public GameObject bullet_1;
-    [SerializeField] float _bulletSpeed = 10;
+    
 
     public float MaxSpeed
     {
@@ -70,7 +70,8 @@ public class TankController : MonoBehaviour
     // projectiles
     public void Shoot()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        float _bulletSpeed = bullet_1.GetComponent<BallBullet>()._speed;
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             var bullet = Instantiate(bullet_1, _bulletSpawnPoint.position, _bulletSpawnPoint.rotation);
             bullet.GetComponent<Rigidbody>().velocity = _bulletSpawnPoint.forward * _bulletSpeed;

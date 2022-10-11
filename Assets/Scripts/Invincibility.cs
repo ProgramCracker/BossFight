@@ -7,7 +7,7 @@ public class Invincibility : PowerUpBase
     public Material _InvincMat;
     public Material _BaseMat;
 
-    protected override void PowerUp(Player player)
+    protected override void PowerUp(PlayInput player)
     {
         Enemy _enemy = gameObject.GetComponent<Enemy>();
         player.gameObject.GetComponentInChildren<MeshRenderer>().material = _InvincMat;
@@ -16,7 +16,7 @@ public class Invincibility : PowerUpBase
 
     }
 
-    protected override void PowerDown(Player player)
+    protected override void PowerDown(PlayInput player)
     {
         Enemy _enemy = gameObject.GetComponent<Enemy>();
         player.gameObject.GetComponentInChildren<MeshRenderer>().material = _BaseMat;

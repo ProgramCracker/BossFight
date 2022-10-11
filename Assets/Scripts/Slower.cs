@@ -9,7 +9,7 @@ public class Slower : Enemy
     //private float _effectDuration = 3;
 
     
-    protected void PlayerImpact(Player player)
+    protected void PlayerImpact(PlayInput player)
     {
         TankController controller = player.GetComponent<TankController>();
         if (controller != null)

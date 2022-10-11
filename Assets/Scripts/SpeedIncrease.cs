@@ -6,7 +6,7 @@ public class SpeedIncrease : CollectibleBase
 {
     [SerializeField] float _speedAmount = .05f;
 
-    protected override void Collect(Player player)
+    protected override void Collect(PlayInput player)
     {
 
         TankController controller = player.GetComponent<TankController>();

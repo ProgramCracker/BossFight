@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(TankController))]
-public class Player : HealthBase
+public class PlayInput : HealthBase
 {
     //[SerializeField] public int _maxHealth = 3;
     //public int _currentHealth;
@@ -15,6 +15,7 @@ public class Player : HealthBase
 
     private void Awake()
     {
+        _currentHealth = _maxHealth;
         _tankController = GetComponent<TankController>();
         _inventory = GetComponent<Inventory>();
     }

@@ -6,7 +6,7 @@ public class Treasure : CollectibleBase
 {
     [SerializeField] int _value = 1;
 
-    protected override void Collect(Player player)
+    protected override void Collect(PlayInput player)
     {
         player.Points(_value);
     }

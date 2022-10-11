@@ -127,6 +127,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec42a7405e4f0c845b5370814d800c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _persistenceTime: 3
+  _duration: 3
+  _damage: 1
+  _speed: 25
   _hitParticles: {fileID: 0}
   _hitSound: {fileID: 0}

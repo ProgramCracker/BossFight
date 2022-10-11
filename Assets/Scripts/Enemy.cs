@@ -19,7 +19,7 @@ public class Enemy : HealthBase
     private void OnCollisionEnter(Collision other)
     {
         HealthBase health = other.gameObject.GetComponent<HealthBase>();
-        Player player = other.gameObject.GetComponent<Player>();
+        PlayInput player = other.gameObject.GetComponent<PlayInput>();
         if(player != null)
         {
             Impact(_damageAmount);

@@ -7,7 +7,7 @@ public abstract class HealthBase : MonoBehaviour
     [SerializeField] public int _maxHealth;
     [SerializeField] public int _currentHealth;
 
-    Player player;
+    PlayInput player;
     TankController tankController;
 
     private void Awake()
