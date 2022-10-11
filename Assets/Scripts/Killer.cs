@@ -6,6 +6,6 @@ public class Killer : Enemy
 {
     protected override void Impact(int damage)
     {
-        DecreaseHealth(damage);
+        TakeDamage(damage);
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Enemy : HealthBase
+public class Enemy : IHealthBase
 {
     [SerializeField] public int _damageAmount = 1;
     [SerializeField] ParticleSystem _impactParticles;
@@ -18,7 +18,7 @@ public class Enemy : HealthBase
 
     private void OnCollisionEnter(Collision other)
     {
-        HealthBase health = other.gameObject.GetComponent<HealthBase>();
+        IHealthBase health = other.gameObject.GetComponent<IHealthBase>();
         PlayInput player = other.gameObject.GetComponent<PlayInput>();
         if(player != null)
         {
@@ -29,7 +29,7 @@ public class Enemy : HealthBase
     
     protected virtual void Impact(int _damageAmount)
     {
-        DecreaseHealth(_damageAmount);
+        TakeDamage(_damageAmount);
     }
 
     private void ImpactFeedback()

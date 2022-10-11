@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(TankController))]
-public class PlayInput : HealthBase
+public class PlayInput : IHealthBase
 {
     //[SerializeField] public int _maxHealth = 3;
     //public int _currentHealth;
@@ -15,6 +15,7 @@ public class PlayInput : HealthBase
 
     private void Awake()
     {
+        _damagedForm.SetActive(false);
         _currentHealth = _maxHealth;
         _tankController = GetComponent<TankController>();
         _inventory = GetComponent<Inventory>();
@@ -45,6 +46,7 @@ public class PlayInput : HealthBase
     }
 
 */
+ 
     public void Points(int amount)
     {
         _inventory.GetPoints(amount);
