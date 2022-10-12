@@ -18,8 +18,13 @@ public class BossAI : MonoBehaviour
     public float _timeBetweenAttacks;
     bool alreadyAttacked;
     //[SerializeField] GameObject _explosion;
-    [SerializeField] AudioClip _rapidFireShots;
-    [SerializeField] ParticleSystem _rapidFireShoot;
+    [Header ("Rapid Fire")]
+    [SerializeField] AudioClip _shootingsound;
+    [SerializeField] ParticleSystem _shootingParticles;
+    [SerializeField] AudioClip _proximityWarning;
+    [SerializeField] GameObject _proxmityAlert;
+    public float _rapidFireWarningTime;
+    bool playedWarning;
     bool alreadyRapidAttacked;
     public float _timeBetweenRapid;
 
@@ -36,6 +41,8 @@ public class BossAI : MonoBehaviour
         _playerInAttackRange = GameObject.Find("Player").transform;
         _agent = GetComponent<NavMeshAgent>();
         //_explosion.SetActive(false);
+        _proxmityAlert.SetActive(false);
+        playedWarning = false;
     }
 
     private void Update()
@@ -46,20 +53,28 @@ public class BossAI : MonoBehaviour
 
         if (!_playerInSight && !_playerInAttackRange && !_playerInCloseRange) 
         {
+
             Patrol();
+
         }
         if (_playerInSight && !_playerInAttackRange && !_playerInCloseRange) 
         {
+            
             Chase();
         }
         if (_playerInSight && _playerInAttackRange && !_playerInCloseRange) 
         {
-            Attack();
+            WarningSFX();
+                Attack();
+
         }
 
         if (_playerInSight && _playerInAttackRange && _playerInCloseRange)
         {
+
+            _proxmityAlert.SetActive(true);
             RapidFire();
+            
         }
     }
 
@@ -112,7 +127,8 @@ public class BossAI : MonoBehaviour
         if (!alreadyAttacked)
         {
             //attack types//
-            
+            ShootSFX();
+            ShootVFX();
             Vector3 bulletOrigin = _muzzle.position;
             Rigidbody rb = Instantiate(_projectile, bulletOrigin, Quaternion.identity).GetComponent<Rigidbody>();
             rb.AddForce(transform.forward * _projectileSpeed, ForceMode.Impulse);
@@ -122,44 +138,77 @@ public class BossAI : MonoBehaviour
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), _timeBetweenAttacks);
         }
+
+        
     }
 
     private void RapidFire()
     {
         transform.LookAt(_player);
         _agent.SetDestination(transform.position);
+        
+        StartCoroutine(wait(_rapidFireWarningTime));
 
         if (!alreadyRapidAttacked)
         {
             //attack types//
-
+            ShootSFX();
+            ShootVFX();
             Vector3 bulletOrigin = _muzzle.position;
+
             Rigidbody rb = Instantiate(_projectile, bulletOrigin, Quaternion.identity).GetComponent<Rigidbody>();
             rb.AddForce(transform.forward * _projectileSpeed, ForceMode.Impulse);
             //rb.AddForce(transform.up * -8f, ForceMode.Impulse);
 
 
             alreadyRapidAttacked = true;
-            Invoke(nameof(ResetAttack), _timeBetweenRapid);
+            Invoke(nameof(ResetRapidAttack), _timeBetweenRapid);
         }
 
-        //ExplosionTimer();
 
     }
 
-    /*
-    IEnumerator ExplosionTimer()
+    void ShootSFX()
     {
-        _explosion.SetActive(true);
-        Rigidbody rb = Instantiate(_explosion, gameObject.transform.position, Quaternion.identity).GetComponent<Rigidbody>();
-        yield return new WaitForSeconds(_explosion.GetComponent<HurtOnTouch>()._timer);
-        _explosion.SetActive(false);
+        AudioHelper.PlayClip2D(_shootingsound, 1f);
+        _proxmityAlert.SetActive(false);
     }
-    */
+
+    void WarningSFX()
+    {
+        if (playedWarning == false)
+        {
+
+            StartCoroutine(soundwait(_rapidFireWarningTime));
+        }
+    }
+
+    IEnumerator wait(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+    }
+
+    IEnumerator soundwait(float seconds)
+    {
+        playedWarning = true;
+        AudioHelper.PlayClip2D(_proximityWarning, 10);
+        yield return new WaitForSeconds(seconds);
+        playedWarning = false;
+    }
+
+    void ShootVFX()
+    {
+        Instantiate(_shootingParticles, _muzzle.position, _muzzle.rotation);
+    }
 
     private void ResetAttack()
     {
         alreadyAttacked = false;
+        
+    }
+    private void ResetRapidAttack()
+    {
         alreadyRapidAttacked = false;
+        
     }
 }

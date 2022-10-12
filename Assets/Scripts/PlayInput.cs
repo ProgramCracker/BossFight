@@ -7,8 +7,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(TankController))]
 public class PlayInput : IHealthBase
 {
-    //[SerializeField] public int _maxHealth = 3;
-    //public int _currentHealth;
+
     private float _overlayFadeTimer;
 
     TankController _tankController;
