@@ -33,7 +33,7 @@ public class IHealthBase : MonoBehaviour
         StartCoroutine(DamagedVisual());
         DamageSound();
 
-        Debug.Log(gameObject + " current health is:" + _currentHealth);
+        //Debug.Log(gameObject + " current health is:" + _currentHealth);
         if (_currentHealth <= 0)
         {
             DeathSound();
@@ -47,28 +47,6 @@ public class IHealthBase : MonoBehaviour
         _currentHealth += amount;
         _currentHealth = Mathf.Clamp(_currentHealth, 0, _maxHealth);
     }
-    
-
-
-    /*
-    public void DamageVisuals()
-    {
-        
-    }
-   
-
-    void DamagedEffectStart()
-    {
-        _damagedForm.SetActive(true);
-        Invoke("DamagedEffectStop", _damagedDuration);
-    }
-
-    
-    void DamagedEffectStop()
-    {
-        _damagedForm.SetActive(false);
-    }
-    */
 
     void DamageSound()
     {
