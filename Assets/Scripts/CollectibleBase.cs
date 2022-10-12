@@ -27,7 +27,7 @@ public abstract class CollectibleBase : MonoBehaviour
     protected virtual void Movement(Rigidbody rb)
     {
 
-        Quaternion turnOffset = Quaternion.Euler(0, _movementSpeed, 0);
+        Quaternion turnOffset = Quaternion.Euler(_movementSpeed, _movementSpeed, _movementSpeed);
         rb.MoveRotation(_rb.rotation * turnOffset);
     }
 

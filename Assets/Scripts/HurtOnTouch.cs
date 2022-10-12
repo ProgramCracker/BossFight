@@ -5,6 +5,7 @@ using UnityEngine;
 public class HurtOnTouch : MonoBehaviour
 {
     [SerializeField] int _damage;
+    [SerializeField] public float _timer;
 
     private void OnCollisionEnter(Collision other)
     {
@@ -13,6 +14,10 @@ public class HurtOnTouch : MonoBehaviour
         {
 
             health.TakeDamage(_damage);
+            if (other.gameObject.TryGetComponent(out PlayInput player))
+            {
+                player.DamageOverlay();
+            }
         }
 
     }

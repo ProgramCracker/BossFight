@@ -36,6 +36,11 @@ public abstract class Bullets : MonoBehaviour
             health.TakeDamage(_damage);
         }
 
+        if (other.gameObject.TryGetComponent(out PlayInput player))
+        {
+            player.DamageOverlay();
+        }
+
         Destroy(gameObject);
     }
 

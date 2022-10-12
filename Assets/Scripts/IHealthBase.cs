@@ -29,6 +29,7 @@ public class IHealthBase : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        
         _currentHealth -= damage;
         StartCoroutine(DamagedVisual());
         DamageSound();

@@ -5,48 +5,61 @@ using UnityEngine.AI;
 
 public class BossAI : MonoBehaviour
 {
+    [Header("Identifiers")]
     public NavMeshAgent _agent;
-
     public Transform _player;
     public Transform _muzzle;
 
     public LayerMask _LayerGround, _LayerPlayer;
 
+    [Header("Weapons")]
     public GameObject _projectile;
     public float _projectileSpeed;
+    public float _timeBetweenAttacks;
+    bool alreadyAttacked;
+    //[SerializeField] GameObject _explosion;
+    [SerializeField] AudioClip _rapidFireShots;
+    [SerializeField] ParticleSystem _rapidFireShoot;
+    bool alreadyRapidAttacked;
+    public float _timeBetweenRapid;
 
+    [Header("Movement")]
     public Vector3 _walkpoint;
     bool walkPointSet;
     public float _walkPointRange;
 
-    public float _timeBetweenAttacks;
-    bool alreadyAttacked;
-
-    public float _sightRange, _attackRange;
-    public bool _playerInSight, _playerInAttackRange;
+    public float _sightRange, _attackRange, _closeRange;
+    public bool _playerInSight, _playerInAttackRange, _playerInCloseRange;
 
     private void Awake()
     {
         _playerInAttackRange = GameObject.Find("Player").transform;
         _agent = GetComponent<NavMeshAgent>();
+        //_explosion.SetActive(false);
     }
 
     private void Update()
     {
         _playerInSight = Physics.CheckSphere(transform.position, _sightRange, _LayerPlayer);
         _playerInAttackRange = Physics.CheckSphere(transform.position, _attackRange, _LayerPlayer);
+        _playerInCloseRange = Physics.CheckSphere(transform.position, _closeRange, _LayerPlayer);
 
-        if (!_playerInSight && !_playerInAttackRange) 
+        if (!_playerInSight && !_playerInAttackRange && !_playerInCloseRange) 
         {
             Patrol();
         }
-        if (_playerInSight && !_playerInAttackRange) 
+        if (_playerInSight && !_playerInAttackRange && !_playerInCloseRange) 
         {
             Chase();
         }
-        if (_playerInSight && _playerInAttackRange) 
+        if (_playerInSight && _playerInAttackRange && !_playerInCloseRange) 
         {
             Attack();
+        }
+
+        if (_playerInSight && _playerInAttackRange && _playerInCloseRange)
+        {
+            RapidFire();
         }
     }
 
@@ -99,19 +112,54 @@ public class BossAI : MonoBehaviour
         if (!alreadyAttacked)
         {
             //attack types//
-            /*
+            
             Vector3 bulletOrigin = _muzzle.position;
             Rigidbody rb = Instantiate(_projectile, bulletOrigin, Quaternion.identity).GetComponent<Rigidbody>();
             rb.AddForce(transform.forward * _projectileSpeed, ForceMode.Impulse);
-            */
+            rb.AddForce(transform.up * -2f, ForceMode.Impulse);
+
 
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), _timeBetweenAttacks);
         }
     }
 
+    private void RapidFire()
+    {
+        transform.LookAt(_player);
+        _agent.SetDestination(transform.position);
+
+        if (!alreadyRapidAttacked)
+        {
+            //attack types//
+
+            Vector3 bulletOrigin = _muzzle.position;
+            Rigidbody rb = Instantiate(_projectile, bulletOrigin, Quaternion.identity).GetComponent<Rigidbody>();
+            rb.AddForce(transform.forward * _projectileSpeed, ForceMode.Impulse);
+            //rb.AddForce(transform.up * -8f, ForceMode.Impulse);
+
+
+            alreadyRapidAttacked = true;
+            Invoke(nameof(ResetAttack), _timeBetweenRapid);
+        }
+
+        //ExplosionTimer();
+
+    }
+
+    /*
+    IEnumerator ExplosionTimer()
+    {
+        _explosion.SetActive(true);
+        Rigidbody rb = Instantiate(_explosion, gameObject.transform.position, Quaternion.identity).GetComponent<Rigidbody>();
+        yield return new WaitForSeconds(_explosion.GetComponent<HurtOnTouch>()._timer);
+        _explosion.SetActive(false);
+    }
+    */
+
     private void ResetAttack()
     {
         alreadyAttacked = false;
+        alreadyRapidAttacked = false;
     }
 }
