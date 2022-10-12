@@ -36,17 +36,17 @@ public class BossAI : MonoBehaviour
         _playerInSight = Physics.CheckSphere(transform.position, _sightRange, _LayerPlayer);
         _playerInAttackRange = Physics.CheckSphere(transform.position, _attackRange, _LayerPlayer);
 
-        if (!_playerInSight && !_playerInAttackRange) Patrol();
+        if (!_playerInSight && !_playerInAttackRange) 
         {
-
+            Patrol();
         }
-        if (_playerInSight && !_playerInAttackRange) Chase();
+        if (_playerInSight && !_playerInAttackRange) 
         {
-
+            Chase();
         }
-        if (_playerInSight && _playerInAttackRange) Attack();
+        if (_playerInSight && _playerInAttackRange) 
         {
-
+            Attack();
         }
     }
 
@@ -80,27 +80,30 @@ public class BossAI : MonoBehaviour
         {
             walkPointSet = true;
         }
+        transform.LookAt(_walkpoint);
     }
 
     private void Chase()
     {
+        transform.LookAt(_player);
         _agent.SetDestination(_player.position);
     }
 
     private void Attack()
     {
+        transform.LookAt(_player);
         _agent.SetDestination(transform.position);
 
-        transform.LookAt(_player);
+        
 
         if (!alreadyAttacked)
         {
             //attack types//
-
+            /*
             Vector3 bulletOrigin = _muzzle.position;
             Rigidbody rb = Instantiate(_projectile, bulletOrigin, Quaternion.identity).GetComponent<Rigidbody>();
             rb.AddForce(transform.forward * _projectileSpeed, ForceMode.Impulse);
-            //rb.AddForce(transform.forward * _projectileSpeed, ForceMode.Impulse);
+            */
 
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), _timeBetweenAttacks);

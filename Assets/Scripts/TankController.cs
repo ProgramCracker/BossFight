@@ -5,12 +5,14 @@ using UnityEngine.Events;
 
 public class TankController : MonoBehaviour
 {
+    [Header("Movement")]
     [SerializeField] float _turnSpeed = 2f;
     [SerializeField] Camera mainCamera;
     //[SerializeField] private LayerMask groundMask;
     //[SerializeField] public float _turretRotSpeed = 5f;
     [SerializeField] float _maxSpeed = .25f;
 
+    [Header("Weapons")]
     Rigidbody _rb = null;
     public Transform _turretBase;
 
@@ -18,7 +20,10 @@ public class TankController : MonoBehaviour
 
     [SerializeField] Transform _bulletSpawnPoint;
     public GameObject bullet_1;
-    
+
+    [SerializeField] AudioClip _shootSound;
+    [SerializeField] ParticleSystem _shootParticles;
+
 
     public float MaxSpeed
     {
@@ -73,51 +78,22 @@ public class TankController : MonoBehaviour
         float _bulletSpeed = bullet_1.GetComponent<BallBullet>()._speed;
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            ShootSFX();
+            ShootVFX();
             var bullet = Instantiate(bullet_1, _bulletSpawnPoint.position, _bulletSpawnPoint.rotation);
             bullet.GetComponent<Rigidbody>().velocity = _bulletSpawnPoint.forward * _bulletSpeed;
         }
     }
 
-    /*
-   
-    // GETTING mouse position on screen to be position in world
-    private void GetTurretMovement()
+
+    void ShootSFX()
     {
-        OnMoveTurret?.Invoke(GetMousePos());
-    }
-    private Vector3 GetMousePos()
-    {
-        Vector3 mousePos = Input.mousePosition;
-        mousePos.y = mainCamera.nearClipPlane;
-        Vector3 mouseWorldPosition = mainCamera.ScreenToWorldPoint(mousePos);
-        return mouseWorldPosition;
+        AudioHelper.PlayClip2D(_shootSound, 1f);
     }
 
-
-    public void TurnTurret(Vector3 mousePos)
+    void ShootVFX()
     {
-        var turretdirection = (Vector3)mousePos - _turretBase.position;
-
-        var desiredAngle = Mathf.Atan2(turretdirection.y, turretdirection.x) * Mathf.Rad2Deg;
-
-        var rotationPeriod = _turretRotSpeed * Time.deltaTime;
-
-        _turretBase.rotation = Quaternion.RotateTowards(_turretBase.rotation, Quaternion.Euler(0,desiredAngle -90,0), rotationPeriod);
+        Instantiate(_shootParticles, _bulletSpawnPoint.position, _bulletSpawnPoint.transform.rotation);
     }
 
-    /*
-    private (bool success, Vector3 position) GetMousePosition()
-    {
-        var ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, groundMask))
-        {
-            return (success: true, position: hitInfo.point);
-        }
-        else
-        {
-            return (success: false, position: Vector3.zero);
-        }
-    }
-    */
 }

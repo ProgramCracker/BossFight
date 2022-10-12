@@ -23,40 +23,29 @@ public abstract class Bullets : MonoBehaviour
         Destroy(gameObject, _duration);
         
     }
-    /*
-    private void OnTriggerEnter(Collider other)
-    {
-        HealthBase impacted = other.gameObject.GetComponent<HealthBase>();
 
-        if (other.gameObject.GetComponent<HealthBase>())
-        {
-            impacted.TakeDamage(_damage);
-        }
-        Destroy(gameObject);
-    }
-    */
-
-  
     //Issue with bullets hitting the player's collider and kill them
     private void OnCollisionEnter(Collision other)
     {
-        
+        ImpactSFX();
+        ImpactVFX();
+
         if (other.gameObject.TryGetComponent(out IHealthBase health))
         {
 
             health.TakeDamage(_damage);
         }
-        /*
-        GameObject player = GameObject.Find("Player");
-        Collider playerCollider = player.GetComponent<Collider>();
-
-        if (other != playerCollider) {
-            Debug.Log("it's the player");
-           
-        }
-        */
 
         Destroy(gameObject);
     }
-        
+
+    void ImpactSFX()
+    {
+        AudioHelper.PlayClip2D(_hitSound, 1f);
+    }
+
+    void ImpactVFX()
+    {
+        Instantiate(_hitParticles, gameObject.transform.position, Quaternion.identity);
+    }
 }
